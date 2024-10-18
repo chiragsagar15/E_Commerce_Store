@@ -6,8 +6,6 @@ from flask import Flask, render_template
 import os
 from dotenv import load_dotenv
 
-
-
 # Load environment variables from .env file
 load_dotenv()
 
@@ -17,17 +15,16 @@ app = Flask(__name__)
 # Encoding username and password for MongoDB connection
 username = quote_plus(os.getenv('MONGODB_USERNAME')) 
 password = quote_plus(os.getenv('MONGODB_PASSWORD'))
-cluster = os.getenv('MONGODB_CLUSTER')
-database = os.getenv('MONGODB_DB')
+
 
 # Connection string for MongoDB Atlas
-connection_string = f"mongodb+srv://{username}:{password}@{cluster}/{database}?retryWrites=true&w=majority&appName=mystoredb"
+connection_string = f"mongodb+srv://{username}:{password}@mystoredb.qodsv.mongodb.net/shop_db?retryWrites=true&w=majority&appName=mystoredb"
 
 # Creating MongoDB client and connecting to the database
 client = MongoClient(connection_string)
 
 # Accessing the 'shop_db' database and 'products' collection from the MongoDB Cluster
-db = client[database]
+db = client['shop_db']
 products_collection = db['products']
 
 # Defining route for Home Page & for displaying products on the Products Page
